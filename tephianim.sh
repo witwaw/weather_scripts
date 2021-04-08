@@ -11,7 +11,7 @@
 #
 # AUTHOR: Witold Wawszczak MSc, club: DSC (UK), BHPA No: 30082
 #
-# special thanks: Pawel Botulinski
+# SPECIAL THANKS: Pawel Botulinski
 #
 # DISCLAIMER: Before attempting any modifications at all, please familiarise yourself with the Bash scripting language.
 #
@@ -25,22 +25,23 @@
 #
 # SUGGESTED DISTRIBUTION: Allow remote acces to resultant animations via web interface. Location and accessibility - of your choice.
 #
-# REQUIREMENTS: Unix-like machine (Linux, Unix, BSD, macOS, etc.), bash 4.0 or higher, wget, imagemagick package (or the "convert" at least), min 20 MB free disk space per day (see the "final word" section), optionally also a cron to run this script automatically at daily intervals. MacOS users: please ensure to manually upgrade your bash to version 4.0 or higher.
+# REQUIREMENTS: Unix-like machine (Linux, Unix, BSD, macOS, etc.), bash 4.0 or higher, wget, imagemagick (or the "convert" at least), min 20 MB free disk space per day (see the "final word" section), optionally also an auto-run solution to run this script daily and automatically (i.e. cron). MacOS users: please ensure to manually upgrade your bash to version 4.0 or higher.
 #
 # DEPLOYMENT: copy this script into a location of your choice, change attributes to executable (i.e. chmod u+x tephianim.sh or chmod 755 tephianim.sh)
 #
 # RUN: in a command line type: bash ./<path>/tephianim.sh
 #
-# AUTO-RUN: add execution of this script into the cron to be run daily
+# AUTO-RUN: add execution of this script into an automated running solution (i.e. cron)
 #
 # DEVELOPMENT AND MODIFICATIONS: This script can be developed further i.e. by allowing generation of animations for other locations. Please credit the original author as per licence. Thank you.
 #
-# FINAL WORD: At 1000x1000 px, each resultant animation takes up to 1.85 MB of disk space and there are 2 files created for each day. Over 30 days (average month), this will generate approx. 110 MB of permanent data per month per location + approx. 15 MB of temp files at each run. Please consider an adequate free storage space or periodic purging of the data on the deployment machine. Cron or a similar tool is recomended.
+# FINAL WORD: At 1000x1000 px, each resultant animation takes up to 1.85 MB of disk space and there are 2 files created for each day. Over 30 days (average month), this will generate approx. 110 MB of permanent data per month per each location + approx. 15 MB of temp files at each run (the latter are immediately deleted). Please consider an adequate free storage space or periodic purging of the data on the deployment machine. Cron or a similar tool is recomended both for running this script and purging unneeded data.
 
 
 # Welcome text
 # Possible tweaks:
 # 1. Adjust the echo text to your liking
+# 2. Silence this section by commenting (addin a hash) at the beginning of lines starting with "echo"
 echo "
 Welcome to TephiAnim - a script to auto-generate soundings/tephigrams as animated GIF's.
 Please read the manual.
@@ -59,7 +60,8 @@ For simplicity, please install package manager called Homebrew, which will allow
 
 Ideally, make the upgraded Bash to be the default one. Either with 'chpass' command-line tool or graphically in: Menu -> System Preferences -> Users and Groups -> Advanced Options -> Login shell' then change to '/usr/local/bin/bash'.
 
-As always, google is your friend." >&2;
+As always, google is your friend."
+>&2;
    exit 1;
 fi
 
@@ -102,7 +104,7 @@ LOCMTRX[16]="Camphill"
 # 1. Switch the default location of generated tephigram animations by changing the number below
 LOC="16"
 
-# And do NOT modify this line
+# Do NOT modify the line below
 LOCTXT=${LOCMTRX[$LOC]}
 
 
