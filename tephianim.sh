@@ -25,7 +25,7 @@
 #
 # SUGGESTED DISTRIBUTION: Allow remote acces to resultant animations via web interface. Location and accessibility - of your choice.
 #
-# REQUIREMENTS: Unix-like machine (Linux, Unix, BSD, macOS, etc.), bash 4.0 or higher, wget, imagemagick (or the "convert" at least), min 20 MB free disk space per day (see the "final word" section), optionally also an auto-run solution to run this script daily and automatically (i.e. cron). MacOS users: please ensure to manually upgrade your bash to version 4.0 or higher.
+# REQUIREMENTS: Unix-like machine (Linux, Unix, BSD, macOS, etc.), bash 4.0 or higher, wget, imagemagick (or the "convert" at least), min 20 MB free disk space per day (see the "final word" section), optionally also an auto-run solution to run this script daily and automatically (i.e. cron). MacOS users: please ensure to manually upgrade your bash to version 4.0 or higher.  Windows10 users: please google how to install Linux's Bash in Windows so that you can run Bahs scripts.
 #
 # DEPLOYMENT: copy this script into a location of your choice, change attributes to executable (i.e. chmod u+x tephianim.sh or chmod 755 tephianim.sh)
 #
