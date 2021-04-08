@@ -4,9 +4,13 @@
 # SCRIPT NAME: TephiAnim
 #
 # ver 02.09
+#
 # last updated: 2021-04-08--0715 GMT
+#
 # LICENCE: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) https://creativecommons.org/licenses/by-nc-sa/4.0/
+#
 # AUTHOR: Witold Wawszczak MSc, club: DSC (UK), BHPA No: 30082
+#
 # special thanks: Pawel Botulinski
 #
 # DISCLAIMER: Before attempting any modifications at all, please familiarise yourself with the Bash scripting language.
@@ -23,9 +27,9 @@
 #
 # REQUIREMENTS: Unix-like machine (Linux, Unix, BSD, macOS, etc.), bash 4.0 or higher, wget, imagemagick package (or the "convert" at least), min 20 MB free disk space per day (see the "final word" section), optionally also a cron to run this script automatically at daily intervals. MacOS users: please ensure to manually upgrade your bash to version 4.0 or higher.
 #
-# DEPLOYMENT: copy this script into a location of your choice, change attributes to executable (i.e. chmod u+x <this_script_filename.sh> or chmod )
+# DEPLOYMENT: copy this script into a location of your choice, change attributes to executable (i.e. chmod u+x tephianim.sh or chmod 755 tephianim.sh)
 #
-# RUN: in a command line type: bash ./<path>/<this_script_filename>.sh
+# RUN: in a command line type: bash ./<path>/tephianim.sh
 #
 # AUTO-RUN: add execution of this script into the cron to be run daily
 #
