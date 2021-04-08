@@ -11,7 +11,7 @@
 #
 # DISCLAIMER: Before attempting any modifications at all, please familiarise yourself with the Bash scripting language.
 #
-# DESCRIPTION: A bash script to generate soundings animations for Camphill weather station (Derbyshire). For each day it uses hour-by-hour soundings in max available grid resolution (2 km) to create two animations: one on the actual day and one for the next day. Animations are scaled to save space.
+# DESCRIPTION: A bash script to generate soundings animations for various locations (default is Camphill in Derbyshire). For each day it uses hour-by-hour soundings in max available grid resolution (2 km) to create two animations: one on the actual day and one for the next day. Animations are scaled to save space.
 #
 # PURPOSE: To automate creation of animated tephigrams, which are permanently deleted from the RASP server the next day, thus not allowing to go back if not saved for that day before midnight.
 #
@@ -112,7 +112,7 @@ LOCMTRX[16]="Camphill"
 
 
 # Define default location by changing the number in the line below
-LOC="13"
+LOC="16"
 
 # And do NOT modify this line
 LOCTXT=${LOCMTRX[$LOC]}
