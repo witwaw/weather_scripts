@@ -30,7 +30,8 @@
 # AUTO-RUN: add execution of this script into the cron to be run daily
 #
 # DEVELOPMENT AND MODIFICATIONS: This script can be developed further i.e. by allowing generation of animations for other locations. Please credit the original author as per licence. Thank you.
-# FINAL WORD: At 1000x1000 px, each resultant animation takes up to 1.85 MB of disk space and there are 2 files created for each day. Over 30 days (average month), this will generate approx. 110 MB of permanent data + approx. 15 MB of temp files at each run. Please consider an adequate free storage space or periodic purging of the data on the deployment machine.
+#
+# FINAL WORD: At 1000x1000 px, each resultant animation takes up to 1.85 MB of disk space and there are 2 files created for each day. Over 30 days (average month), this will generate approx. 110 MB of permanent data per month per location + approx. 15 MB of temp files at each run. Please consider an adequate free storage space or periodic purging of the data on the deployment machine. Cron or a similar tool is recomended.
 
 
 # Welcome text
