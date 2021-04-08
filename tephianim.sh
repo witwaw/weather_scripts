@@ -3,9 +3,9 @@
 #
 # SCRIPT NAME: TephiAnim
 #
-# ver 02.09
+# ver 02.10
 #
-# last updated: 2021-04-08--0715 GMT
+# last updated: 2021-04-08--0807 GMT
 #
 # LICENCE: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) https://creativecommons.org/licenses/by-nc-sa/4.0/
 #
@@ -73,26 +73,9 @@ fi
 # The below list will be of a help. For more details see:
 # http://rasp.stratus.org.uk/modules/mod_rasp_configuration/config.js
 
-# LOCATIONS - names and GPS centres
 
 
-# 1: Exeter	centre: [50.7344	-3.4139]
-# 2: Fairford	centre: [51.6820	-1.7900]
-# 3: Herstmonceaux	centre: [50.8833	0.3333]
-# 4: Newtown	centre: [52.5157	-3.3000]
-# 5: Cambridge	centre: [52.2050	0.1750]
-# 6: Nottingham	centre: [52.9667	-1.1667]
-# 7: Cheviots	centre: [55.5000	-2.2000]
-# 8: Callander	centre: [56.2500	-4.2333]
-# 9: Aboyne	centre: [57.0833	-2.8333]
-# 10: Buckingham	centre: [52.0000	-0.9833]
-# 11: Larkhill	centre: [51.2000	-1.8167]
-# 12: Leeds	"centre: [53.8690	-1.6500]
-# 13: Carrickmore	centre: [54.5990	-7.0490]
-# 14: CastorBay NI	centre: [54.5000	-6.3300]
-# 15: Talgarth	centre: [51.979558	-3.206081]
-# 16: Camphill	centre: [53.3050	-1.7291]
-
+# Matrix (associative array) of locations and their numbers in original URL's at RASP
 declare -A LOCMTRX
 num_rows=16
 num_columns=2
@@ -114,15 +97,18 @@ LOCMTRX[15]="Talgarth"
 LOCMTRX[16]="Camphill"
 
 
-
-
-# Define default location by changing the number in the line below
+# Default location 
+# Possible tweaks:
+# 1. Switch the default location of generated tephigram animations by changing the number below
 LOC="16"
 
 # And do NOT modify this line
 LOCTXT=${LOCMTRX[$LOC]}
 
-# Ask user for location of the desired sounding
+
+# Ask user for location of the desired sounding to animate
+# Possible tweaks:
+# 1. Silence or reduce this section by commenting (addin a hash) at the beginning of lines starting with "echo". Note that this will not change at all how the rest of this script works (i.e. final animation GIF size, number of frames or delay between frames/speed of animation), but only provide less visual clues for user.
 echo "Which location would you like the sounding for?
 "
 echo " 1 - Exeter, centre: [50.7344, -3.4139]"
@@ -143,7 +129,10 @@ echo "15 - Talgarth, centre: [51.979558, -3.206081]"
 echo "16 - Camphill, centre: [53.3050, -1.7291]
 
 "
-
+# Ask user for the desired location of tephigrams. If no choice made after timeout, the default location will be used
+# Possible tweaks:
+# 1. Adjust the timeout by changing the number next to "total"
+# 2. DO NOT comment (add a hash) at the beginning of "echo" line, because this one is functional - takes data input from user
 total=30  # Total wait time in seconds
 count=0  # Time counter
 while [ ${count} -lt ${total} ] ; do
@@ -154,6 +143,9 @@ while [ ${count} -lt ${total} ] ; do
     count=$((count+1))
 done
 
+
+# Possible tweaks:
+# 1. Silence this section by commenting (adding a hash) at the beginning of line starting with "echo" command
 if [ -z "$LOC2" ] ; then
     echo "No location specified, generating animated tephigrams for default location: ($LOC - $LOCTXT)"
     LOCTXT=${LOCMTRX[$LOC]}
@@ -164,20 +156,26 @@ else
 fi
 
 
-
-#URLPREFTD="http://rasp.mrsap.org/UK2/FCST/sounding16.curr."
+# Definition of a generic URL for soundings - prefix - current day
+# Do not modify this section unless you know what you're doing
 URLPREFTD=http://rasp.mrsap.org/UK2/FCST/sounding"$LOC".curr.
 
-#URLPREFTOM="http://rasp.mrsap.org/UK2+1/FCST/sounding16.curr."
+# Definition of a generic URL for soundings - prefix - next day
+# Do not modify this section unless you know what you're doing
 URLPREFTOM=http://rasp.mrsap.org/UK2+1/FCST/sounding"$LOC".curr.
 
+# Definition a generic URL for soundings - suffix - any day
+# Do not modify this section unless you know what you're doing
 URLSUFF="00lst.d2.png"
 
+# Definition of dates for current day and next day
+# Do not modify this section unless you know what you're doing
 DATETD=$(date +%Y-%m-%d)
 DATETOM=$(date --date="next day" +%Y-%m-%d)
 
-# Check if any temp work directories exist. If so - purge.
-
+# Check if any temp work directories exist. If so - purge, otherwise - ignore.
+# Possible tweaks:
+# 1. Silence this section by commenting (adding a hash) at the beginning of lines starting with "echo" command
 if [[ -d temp_soundings_"$DATETD" ]]
 then
     echo "An old temp work dir detected - purging"
@@ -192,13 +190,16 @@ fi
 
 
 # Create fresh temp work directories
+# Possible tweaks:
+# 1. Silence this section by commenting (adding a hash) at the beginning of a line starting with "echo" command
 echo "Creating fresh temp work directories"
 mkdir temp_soundings_"$DATETD"
 mkdir temp_soundings_"$DATETOM"
 
 
 # Check if the directory for animations exists. If so - skip to the next step, otherwise - create a fresh one.
-
+# Possible tweaks:
+# 1. Silence this section by commenting (adding a hash) at the beginning of a line starting with "echo" command
 if [[ ! -d tephigram_animations ]]
 then
     echo "No dir for soundings animations detected - creating new"
@@ -206,9 +207,10 @@ then
 fi
 
 
-
-
-# Download tephigrams for the current day
+# Download raw tephigrams for the current day
+# Possible tweaks:
+# 1. Reduce number of animation steps by deleting respective numbers in the "for" line. Each number corresponds to a specific time, as provided by RASP soundings
+# 2. Silence this section by commenting (adding a hash) at the beginning of lines starting with "echo" command
 echo "Downloading raw tephigrams for $LOCTXT for today ($DATETD)"
 for tm in '07' '08' '09' '10' '11' '12' '13' '14' '15' '16' '17' '18' '19'
 do
@@ -218,17 +220,21 @@ done
 echo "
 Done"
 
+
 # Create animated tephigrams for the current day
 # Possible tweaks:
-# 1. Change "delay" number to manipulate the animation speed (delay between each image in miliseconds)
-# 2. Change the "resize" value to manipulate resolution of the image and it's disk size
+# 1. Manipulate animation speed by changing the nuber after the "delay" (a delay between each image in miliseconds)
+# 2. Manipulate the final animation image size and disk space occupied by adjusting the number after the "resize" (in pixels)
+# 3. Silence this section by commenting (adding a hash) at the beginning of line starting with "echo" command
 echo "Creating tephigram animation for $LOCTXT for today ($DATETD) - this may take a while..."
 convert -delay 200 temp_soundings_"$DATETD"/*.png -resize 1000x1000 tephigram_animations/tephigram_"$LOCTXT"_"$DATETD"_generated_"$DATETD"_density2k.gif
 echo "Done"
 
 
-
 # Download tephigrams for the next day
+# Possible tweaks:
+# 1. Reduce number of animation steps by deleting respective numbers in the "for" line. Each number corresponds to a specific time, as provided by RASP soundings
+# 2. Silence this section by commenting (adding a hash) at the beginning of lines starting with "echo" command
 echo "Downloading raw tephigrams for $LOCTXT for tomorrow  ($DATETOM)"
 for tm in '07' '08' '09' '10' '11' '12' '13' '14' '15' '16' '17' '18' '19'
 do
@@ -238,26 +244,29 @@ done
 echo "
 Done"
 
+
 # Create animated tephigrams for the next day
 # Possible tweaks:
-# 1. Change "delay" number to manipulate the animation speed (delay between each image in miliseconds)
-# 2. Change the "resize" value to manipulate resolution of the image and it's disk size
+# 1. Manipulate animation speed by changing the nuber after the "delay" (a delay between each image in miliseconds)
+# 2. Manipulate the final animation image size and disk space occupied by adjusting the number after the "resize" (in pixels)
+# 3. Silence this section by commenting (adding a hash) at the beginning of lines starting with "echo" command
 echo "Creating tephigram animation for $LOCTXT for tomorrow ($DATETOM) - this may take a while..."
 convert -delay 200 temp_soundings_"$DATETOM"/*.png -resize 1000x1000 tephigram_animations/tephigram_"$LOCTXT"_"$DATETOM"_generated_"$DATETD"_density2k.gif
 echo "Done"
 
 
-
-
 # Delete all temporary work directories
 # Possible tweaks:
 # 1. Comment these 4 lines below to preserve temporary soundings images (default action: purge all downloaded soundings to save disk space)
+# 2. Silence this section by commenting (adding a hash) at the beginning of line starting with "echo" command
 echo "Purging temp work directories"
 rm -rf temp_soundings_$DATETD
 rm -rf temp_soundings_$DATETOM
 echo "Done"
 
+
 # Say goodbye and exit
 # Possible tweaks:
 # 1. Adjust the text below to your liking
+# 2. Silence this section by commenting (adding a hash) at the beginning of line starting with "echo" command
 echo "All done. Thank you for using the TephiAnim. Remember: safe flying is the ultimate pilot's responsibility."
